@@ -7,6 +7,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;800;900&family=Heebo:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18369195247"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18369195247');
+</script>
 <style>
   :root{
     --ink:#0a0d16;
@@ -899,6 +907,13 @@
     document.getElementById('reviewOverlay').classList.remove('active');
   };
 })();
+</script>
+<script>
+document.querySelectorAll('a[href^="tel:"]').forEach(function(link){
+  link.addEventListener('click', function(){
+    gtag('event', 'conversion', {'send_to': 'AW-18369195247/1wfMCM7B99scEO_ZjrdE'});
+  });
+});
 </script>
 </body>
 </html>
