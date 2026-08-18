@@ -546,6 +546,42 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media (prefers-reduced-motion: reduce){
     .btn-primary::after, .eta-badge::before, .reviews-track{animation:none;}
   }
+  #a11yBtn{position:fixed;bottom:90px;left:16px;width:48px;height:48px;border-radius:50%;background:var(--royal);color:#fff;border:none;cursor:pointer;z-index:99998;box-shadow:0 2px 10px rgba(0,0,0,.3);font-size:24px;display:flex;align-items:center;justify-content:center;transition:transform .2s;}
+  #a11yBtn:hover{transform:scale(1.1);}
+  #a11yPanel{position:fixed;bottom:148px;left:16px;background:#fff;color:#1a1a1a;border-radius:16px;padding:20px;z-index:99998;box-shadow:0 4px 24px rgba(0,0,0,.2);width:260px;display:none;direction:rtl;}
+  #a11yPanel.open{display:block;}
+  #a11yPanel h3{font-family:'Rubik',sans-serif;margin:0 0 14px;font-size:17px;color:var(--navy);text-align:center;}
+  .a11y-row{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;justify-content:center;}
+  .a11y-btn{padding:8px 12px;border:2px solid var(--line);border-radius:10px;background:#fff;cursor:pointer;font-family:'Heebo',sans-serif;font-size:13px;font-weight:500;color:var(--ink);transition:all .2s;flex:1;min-width:70px;text-align:center;}
+  .a11y-btn:hover,.a11y-btn.active{background:var(--royal);color:#fff;border-color:var(--royal);}
+  .a11y-reset{width:100%;margin-top:6px;padding:8px;border:none;border-radius:10px;background:var(--paper-2);cursor:pointer;font-family:'Heebo',sans-serif;font-size:13px;font-weight:700;color:var(--steel);}
+  .a11y-reset:hover{background:var(--line);}
+  body.a11y-big{font-size:120%!important;}
+  body.a11y-bigger{font-size:140%!important;}
+  body.a11y-contrast{background:#000!important;color:#ff0!important;}
+  body.a11y-contrast *{background-color:inherit!important;color:inherit!important;border-color:#ff0!important;}
+  body.a11y-contrast a{color:#0ff!important;}
+  body.a11y-grayscale{filter:grayscale(100%);}
+  body.a11y-links a{text-decoration:underline!important;font-weight:bold!important;}
+  body.a11y-readable{font-family:Arial,sans-serif!important;letter-spacing:1px!important;word-spacing:3px!important;line-height:2!important;}
+  body.a11y-readable *{font-family:Arial,sans-serif!important;}
+  @media(max-width:600px){#a11yBtn{bottom:80px;left:10px;width:42px;height:42px;font-size:20px;}#a11yPanel{bottom:132px;left:10px;width:240px;}}
+  #cookieBanner{position:fixed;bottom:0;left:0;right:0;background:#1a1a2e;color:#fff;padding:16px 20px;display:flex;align-items:center;justify-content:center;gap:14px;z-index:99999;font-size:14px;box-shadow:0 -2px 12px rgba(0,0,0,.3);flex-wrap:wrap;}
+  #cookieBanner.hidden{display:none;}
+  #cookieBanner a{color:#7eb8ff;text-decoration:underline;}
+  #cookieBanner button{border:none;cursor:pointer;border-radius:8px;font-family:'Heebo',sans-serif;font-size:14px;font-weight:700;padding:10px 24px;}
+  .cb-accept{background:var(--blue);color:#fff;}
+  .cb-accept:hover{background:var(--blue-bright);}
+  .cb-close{background:transparent;color:#aaa;font-size:20px;padding:6px 10px!important;line-height:1;}
+  .cb-close:hover{color:#fff;}
+  #privacyOverlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100000;display:none;align-items:center;justify-content:center;}
+  #privacyOverlay.active{display:flex;}
+  .privacy-modal{background:#fff;color:#1a1a1a;border-radius:16px;max-width:600px;width:92%;max-height:80vh;overflow-y:auto;padding:32px 28px;position:relative;font-size:14.5px;line-height:1.7;direction:rtl;}
+  .privacy-modal h2{font-family:'Rubik',sans-serif;margin:0 0 16px;font-size:22px;color:var(--navy);}
+  .privacy-modal h3{font-family:'Rubik',sans-serif;margin:20px 0 8px;font-size:17px;color:var(--royal);}
+  .privacy-modal p{margin:0 0 12px;}
+  .privacy-modal .pm-close{position:absolute;top:12px;left:12px;background:none;border:none;font-size:24px;cursor:pointer;color:#666;padding:4px 8px;}
+  .privacy-modal .pm-close:hover{color:#000;}
 </style>
 </head>
 <body>
@@ -933,6 +969,100 @@ document.querySelectorAll('a[href^="tel:"]').forEach(function(link){
     gtag('event', 'conversion', {'send_to': 'AW-18369195247/1wfMCM7B99scEO_ZjrdE'});
   });
 });
+</script>
+
+<button id="a11yBtn" onclick="toggleA11y()" aria-label="תפריט נגישות">♿</button>
+<div id="a11yPanel">
+  <h3>הגדרות נגישות</h3>
+  <div class="a11y-row">
+    <button class="a11y-btn" onclick="a11yToggle('a11y-big')" data-a11y="a11y-big">א+ הגדלה</button>
+    <button class="a11y-btn" onclick="a11yToggle('a11y-bigger')" data-a11y="a11y-bigger">א++ הגדלה+</button>
+  </div>
+  <div class="a11y-row">
+    <button class="a11y-btn" onclick="a11yToggle('a11y-contrast')" data-a11y="a11y-contrast">ניגודיות גבוהה</button>
+  </div>
+  <div class="a11y-row">
+    <button class="a11y-btn" onclick="a11yToggle('a11y-grayscale')" data-a11y="a11y-grayscale">גווני אפור</button>
+  </div>
+  <div class="a11y-row">
+    <button class="a11y-btn" onclick="a11yToggle('a11y-links')" data-a11y="a11y-links">הדגשת קישורים</button>
+  </div>
+  <div class="a11y-row">
+    <button class="a11y-btn" onclick="a11yToggle('a11y-readable')" data-a11y="a11y-readable">גופן קריא</button>
+  </div>
+  <button class="a11y-reset" onclick="a11yReset()">איפוס הגדרות</button>
+</div>
+
+<div id="cookieBanner" class="hidden">
+  <span>אתר זה משתמש בעוגיות (Cookies) לשיפור חוויית הגלישה ולצרכי ניתוח. <a href="#" onclick="openPrivacy();return false;">מדיניות פרטיות</a></span>
+  <button class="cb-accept" onclick="acceptCookies()">מאשר</button>
+  <button class="cb-close" onclick="closeCookieBanner()" aria-label="סגור">&times;</button>
+</div>
+
+<div id="privacyOverlay">
+  <div class="privacy-modal">
+    <button class="pm-close" onclick="closePrivacy()">&times;</button>
+    <h2>מדיניות פרטיות ושימוש בעוגיות</h2>
+    <p><strong>עדכון אחרון:</strong> אוגוסט 2026</p>
+
+    <h3>מי אנחנו</h3>
+    <p>דרור פריצת רכב — שירות פריצת רכבים מקצועי באזור ראשון לציון, חולון ובת ים. טלפון: 052-838-4477.</p>
+
+    <h3>איזה מידע אנחנו אוספים</h3>
+    <p>כאשר אתם גולשים באתר, אנו אוספים מידע אנונימי באמצעות כלי ניתוח (Google Analytics, Microsoft Clarity) הכולל: עמודים שנצפו, משך הביקור, סוג המכשיר והדפדפן, ומיקום גיאוגרפי כללי. איננו אוספים מידע אישי מזהה כגון שם, כתובת דוא"ל או מספר טלפון, אלא אם פניתם אלינו ישירות בטלפון או בוואטסאפ.</p>
+
+    <h3>שימוש בעוגיות (Cookies)</h3>
+    <p>האתר משתמש בעוגיות לצרכים הבאים:</p>
+    <p><strong>עוגיות חיוניות:</strong> הכרחיות לתפקוד תקין של האתר.</p>
+    <p><strong>עוגיות ניתוח:</strong> Google Analytics ו-Microsoft Clarity — עוזרות לנו להבין כיצד גולשים משתמשים באתר, אילו עמודים פופולריים ואיפה ניתן לשפר.</p>
+    <p><strong>עוגיות פרסום:</strong> Google Ads — מאפשרות לנו למדוד את יעילות הקמפיינים הפרסומיים שלנו.</p>
+
+    <h3>שיתוף מידע עם צדדים שלישיים</h3>
+    <p>איננו מוכרים או משתפים מידע אישי. כלי הניתוח שבשימושנו (Google, Microsoft) מקבלים נתונים אנונימיים בלבד בהתאם למדיניות הפרטיות שלהם.</p>
+
+    <h3>זכויותיכם</h3>
+    <p>בהתאם לחוק הגנת הפרטיות, התשמ"א-1981 ותיקון 13, עומדות לכם הזכויות הבאות: הזכות לדעת אילו נתונים נאספים, הזכות לבקש מחיקת מידע, והזכות לחזור בכם מהסכמה בכל עת. ניתן לפנות אלינו בטלפון 052-838-4477.</p>
+
+    <h3>יצירת קשר</h3>
+    <p>לשאלות בנוגע למדיניות הפרטיות: טלפון 052-838-4477 או דרך הוואטסאפ באתר.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  if(!localStorage.getItem('cookieConsent')){
+    document.getElementById('cookieBanner').classList.remove('hidden');
+  }
+})();
+function acceptCookies(){
+  localStorage.setItem('cookieConsent','accepted');
+  document.getElementById('cookieBanner').classList.add('hidden');
+}
+function closeCookieBanner(){
+  document.getElementById('cookieBanner').classList.add('hidden');
+}
+function openPrivacy(){
+  document.getElementById('privacyOverlay').classList.add('active');
+}
+function closePrivacy(){
+  document.getElementById('privacyOverlay').classList.remove('active');
+}
+document.getElementById('privacyOverlay').addEventListener('click',function(e){
+  if(e.target===this)closePrivacy();
+});
+function toggleA11y(){document.getElementById('a11yPanel').classList.toggle('open');}
+function a11yToggle(cls){
+  var b=document.body;
+  if(cls==='a11y-big'||cls==='a11y-bigger'){b.classList.remove('a11y-big','a11y-bigger');}
+  b.classList.toggle(cls);
+  document.querySelectorAll('.a11y-btn').forEach(function(btn){
+    btn.classList.toggle('active',b.classList.contains(btn.getAttribute('data-a11y')));
+  });
+}
+function a11yReset(){
+  document.body.classList.remove('a11y-big','a11y-bigger','a11y-contrast','a11y-grayscale','a11y-links','a11y-readable');
+  document.querySelectorAll('.a11y-btn').forEach(function(btn){btn.classList.remove('active');});
+}
 </script>
 </body>
 </html>
