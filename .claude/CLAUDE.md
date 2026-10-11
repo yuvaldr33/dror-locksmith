@@ -14,8 +14,8 @@ This repository is the head office of the owner's AI creative studio (websites, 
 
 ## Connected services
 - ElevenLabs — voice (works in cloud sessions via the proxy): `_ai-studio/tools/elevenlabs_tts.py`.
-- fal.ai — images and video from one key (Veo, Kling, Seedance, Flux, Nano Banana, Recraft): `_ai-studio/tools/fal_generate.py`, needs `FAL_KEY`.
-- HeyGen — talking presenters: `_ai-studio/tools/heygen_video.py`, needs `HEYGEN_API_KEY`.
+- Kling (Standard → Pro) and Google AI Pro (Flow: Veo 3.1 + images) — fixed subscriptions the owner operates by hand. You write a ready-to-paste `prompts.md` per job; the owner generates and drops clips into the client's `ad/shots/` folder; you select, edit and finish. Generate video without audio (saves credits) and add voice/music in the edit.
+- Not in the current budget (see `_ai-studio/05-budget-plan.md`): fal.ai (`tools/fal_generate.py`, pay-per-use) and HeyGen paid (`tools/heygen_video.py`) — use only if the owner approves an upgrade.
 - Gmail, Google Calendar, Google Drive, Notion, Shopify, GitHub — via connectors.
 - Codex (OpenAI) — second-opinion code review via the codex-plugin-cc plugin when installed.
 
