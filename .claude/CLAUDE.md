@@ -9,7 +9,7 @@ This repository is the head office of the owner's AI creative studio (websites, 
 
 ## Where things live
 - `_ai-studio/` — company docs (research, org chart, pricing), shared memory `AGENTS.md`, `clients/` (one folder per client, copied from `clients/_template/`), `tools/` (scripts that connect to the AI generation services).
-- `.claude/skills/` — the studio's skills library (marketing, ads, SEO, CRO, video, plus the CEO skills).
+- `.claude/skills/` — the studio's skills library (marketing, ads, SEO, CRO, video, plus the CEO skills). Design skills for every website/UI job: `design-taste-frontend`, `impeccable` (with its `impeccable-*` helper agents) and `emil-design-eng`.
 - The underscore folder is not published on the website; nothing confidential goes outside it.
 
 ## Connected services
