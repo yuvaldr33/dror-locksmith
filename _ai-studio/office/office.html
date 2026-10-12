@@ -1,0 +1,327 @@
+<title>משרד הסטודיו</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: an office floor plan — CEO room + approvals on top, desks grouped by department, the VP wing, then the activity log. */
+:root {
+  --bg: #EDF0F3; --surface: #FFFFFF; --sunk: #E3E8ED; --ink: #16202B; --muted: #5B6672; --line: #D3DAE1;
+  --lamp: #D9880F; --lamp-soft: #FBEBD0;
+  --ok: #2B8F62; --ok-soft: #DDF2E8; --wait: #2F6FB0; --wait-soft: #DCE9F6; --bad: #C2453A; --bad-soft: #F7E0DD; --idle: #8A949E; --idle-soft: #E9ECEF;
+  --display: "Frank Ruhl Libre", "David Libre", Georgia, serif;
+  --body: "Assistant", "Segoe UI", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0D1319; --surface: #151D25; --sunk: #1B252F; --ink: #E4E9EE; --muted: #8F9BA7; --line: #26323E;
+  --lamp: #F0A53A; --lamp-soft: #3A2A12;
+  --ok: #4CC08A; --ok-soft: #13301F; --wait: #6AA6E0; --wait-soft: #142739; --bad: #EE7B6F; --bad-soft: #3A1A17; --idle: #7D8894; --idle-soft: #1E2731;
+  color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0D1319; --surface: #151D25; --sunk: #1B252F; --ink: #E4E9EE; --muted: #8F9BA7; --line: #26323E;
+  --lamp: #F0A53A; --lamp-soft: #3A2A12;
+  --ok: #4CC08A; --ok-soft: #13301F; --wait: #6AA6E0; --wait-soft: #142739; --bad: #EE7B6F; --bad-soft: #3A1A17; --idle: #7D8894; --idle-soft: #1E2731;
+  color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.5 }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 48px; display: grid; gap: 28px }
+h1, h2, h3 { font-family: var(--display); margin: 0; text-wrap: balance }
+h1 { font-size: clamp(26px, 4vw, 36px); font-weight: 900 }
+h2 { font-size: 21px; font-weight: 700 }
+h3 { font-size: 17px; font-weight: 700 }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums }
+.muted { color: var(--muted) }
+.eyebrow { font-size: 12px; letter-spacing: .06em; color: var(--muted); font-weight: 700 }
+
+header.top { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px; border-bottom: 2px solid var(--ink); padding-bottom: 14px }
+.live { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700 }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--idle) }
+.live.on .dot { background: var(--ok); box-shadow: 0 0 0 0 var(--ok); animation: pulse 2s infinite }
+.stats { display: flex; flex-wrap: wrap; gap: 18px; font-size: 13px }
+.stats b { font-family: var(--mono); font-size: 18px; display: block; line-height: 1.1 }
+
+.row2 { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px }
+@media (max-width: 820px) { .row2 { grid-template-columns: 1fr } }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; min-width: 0 }
+.ceo { border: 2px solid var(--ink); position: relative }
+.ceo .who { display: flex; align-items: center; gap: 12px; margin-bottom: 12px }
+.badge { width: 44px; height: 44px; border-radius: 8px; background: var(--ink); color: var(--bg); display: grid; place-items: center; font-family: var(--display); font-weight: 900; font-size: 18px; flex: none }
+.kv { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; font-size: 14px }
+.kv dt { color: var(--muted) }
+.kv dd { margin: 0; min-width: 0; overflow-wrap: anywhere }
+.chips { display: flex; flex-wrap: wrap; gap: 6px }
+.chip { font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--sunk); color: var(--ink); white-space: nowrap }
+
+.pill { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 999px; white-space: nowrap }
+.pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor }
+.s-working { color: var(--lamp); background: var(--lamp-soft) }
+.s-working::before { animation: blink 1.4s infinite }
+.s-waiting { color: var(--wait); background: var(--wait-soft) }
+.s-blocked { color: var(--bad); background: var(--bad-soft) }
+.s-done { color: var(--ok); background: var(--ok-soft) }
+.s-idle { color: var(--idle); background: var(--idle-soft) }
+
+.approvals { display: grid; gap: 10px }
+.appr { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; display: grid; gap: 6px }
+.appr.pending { border-color: var(--wait) }
+.appr .acts { display: flex; gap: 8px; flex-wrap: wrap }
+button { font: inherit; font-size: 13px; font-weight: 700; border-radius: 6px; padding: 5px 12px; cursor: pointer; border: 1px solid var(--line); background: var(--sunk); color: var(--ink) }
+button.yes { background: var(--ink); color: var(--bg); border-color: var(--ink) }
+button:focus-visible { outline: 2px solid var(--lamp); outline-offset: 2px }
+button[disabled] { opacity: .5; cursor: default }
+
+.dept { display: grid; gap: 10px }
+.dept-head { display: flex; align-items: baseline; gap: 10px; border-bottom: 1px dashed var(--line); padding-bottom: 6px }
+.desks { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px }
+.desk { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: grid; gap: 8px; align-content: start; min-width: 0; border-top: 4px solid var(--idle) }
+.desk.working { border-top-color: var(--lamp) }
+.desk.waiting { border-top-color: var(--wait) }
+.desk.blocked { border-top-color: var(--bad) }
+.desk.done { border-top-color: var(--ok) }
+.desk .head { display: flex; justify-content: space-between; align-items: start; gap: 8px }
+.desk .role { font-size: 13px; color: var(--muted) }
+.task { font-size: 14px; min-height: 1.5em; overflow-wrap: anywhere }
+.bar { height: 6px; background: var(--sunk); border-radius: 3px; overflow: hidden }
+.bar i { display: block; height: 100%; background: var(--lamp); border-radius: 3px; transition: width .6s }
+.desk.done .bar i { background: var(--ok) }
+.meta { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; color: var(--muted) }
+
+.wing { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px }
+.vp { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: grid; gap: 6px; align-content: start; min-width: 0 }
+.vp .price { font-family: var(--mono); font-size: 13px }
+.link { font-size: 11px; font-weight: 700; letter-spacing: .03em; padding: 1px 7px; border-radius: 4px; border: 1px solid var(--line); color: var(--muted) }
+.link.api { color: var(--ok); border-color: var(--ok) }
+.link.manual { color: var(--lamp); border-color: var(--lamp) }
+.vp.off { opacity: .72 }
+
+.log { display: grid; gap: 0; font-size: 14px }
+.log li { list-style: none; display: grid; grid-template-columns: 64px 1fr; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line) }
+.log ol { margin: 0; padding: 0 }
+.log .t { font-family: var(--mono); font-size: 12px; color: var(--muted) }
+.empty { color: var(--muted); font-size: 14px; padding: 14px; border: 1px dashed var(--line); border-radius: 8px }
+footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px }
+
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ok) 60%, transparent) } 70% { box-shadow: 0 0 0 8px transparent } 100% { box-shadow: 0 0 0 0 transparent } }
+@keyframes blink { 50% { opacity: .25 } }
+@media (prefers-reduced-motion: reduce) { .live.on .dot, .s-working::before { animation: none } .bar i { transition: none } }
+</style>
+
+<div class="wrap" dir="rtl" lang="he">
+  <header class="top">
+    <div>
+      <div class="eyebrow">הסטודיו · משרד וירטואלי</div>
+      <h1>משרד הסטודיו</h1>
+    </div>
+    <div class="stats" id="stats">
+      <div><b id="st-working">–</b>בעבודה עכשיו</div>
+      <div><b id="st-waiting">–</b>מחכים לך</div>
+      <div><b id="st-staff">–</b>עובדים</div>
+      <div><b id="st-vps">–</b>סמנכ״לים פעילים</div>
+    </div>
+    <div class="live" id="live"><span class="dot"></span><span id="live-txt">מתחבר…</span></div>
+  </header>
+
+  <section class="row2">
+    <div class="panel ceo" id="ceo">
+      <div class="who">
+        <div class="badge">מנ</div>
+        <div>
+          <div class="eyebrow">חדר המנכ״ל</div>
+          <h2>Claude · המנכ״ל</h2>
+        </div>
+        <span style="margin-inline-start:auto" id="ceo-pill" class="pill s-idle">טוען</span>
+      </div>
+      <dl class="kv" id="ceo-kv">
+        <dt>עובד על</dt><dd id="ceo-task">המשרד נטען. כאן יופיע מה אני עושה ברגע זה.</dd>
+        <dt>סקיל מנהל</dt><dd id="ceo-skill">–</dd>
+        <dt>כלי</dt><dd id="ceo-tool">–</dd>
+        <dt>הצעד הבא</dt><dd id="ceo-next">–</dd>
+        <dt>עודכן</dt><dd id="ceo-upd" class="mono">–</dd>
+      </dl>
+    </div>
+    <div class="panel">
+      <div class="eyebrow">שולחן הבעלים</div>
+      <h2 style="margin-bottom:10px">מחכה לאישור שלך</h2>
+      <div class="approvals" id="approvals"><div class="empty">אין כרגע החלטות שמחכות לך.</div></div>
+    </div>
+  </section>
+
+  <section class="dept" aria-labelledby="floor-h">
+    <div class="dept-head"><h2 id="floor-h">קומת העובדים</h2><span class="muted">סוכנים, סקילים וסשנים שעובדים בשבילנו</span></div>
+    <div id="floor" style="display:grid;gap:22px"><div class="empty">העובדים יופיעו כאן ברגע שהמשרד יתחבר לנתונים.</div></div>
+  </section>
+
+  <section class="dept" aria-labelledby="wing-h">
+    <div class="dept-head"><h2 id="wing-h">אגף הסמנכ״לים</h2><span class="muted">כלים חיצוניים ומנויים, כל מה שאינו Claude</span></div>
+    <div class="wing" id="wing"><div class="empty">הכלים החיצוניים יופיעו כאן.</div></div>
+  </section>
+
+  <section class="panel">
+    <div class="eyebrow">מה קרה לאחרונה</div>
+    <h2 style="margin-bottom:6px">יומן פעילות</h2>
+    <div class="log"><ol id="log"><li><span class="t">–</span><span class="muted">אין עדיין פעילות.</span></li></ol></div>
+  </section>
+
+  <footer>
+    המשרד מתעדכן בזמן אמת: בכל פעם שעובד מתחיל משימה, מתקדם או מסיים, המנכ״ל מעדכן את השולחן שלו כאן. הערכות הזמן הן הערכות, לא התחייבות.
+  </footer>
+</div>
+
+<script>
+document.documentElement.dir = "rtl";
+document.documentElement.lang = "he";
+const $ = (id) => document.getElementById(id);
+const STATUS = { working: "בעבודה", waiting: "מחכה לך", blocked: "תקוע", done: "סיים", idle: "פנוי" };
+const LINK = { api: "מחובר אליי", manual: "עבודה ידנית", connector: "מחובר אליי" };
+const DEPTS = ["קריאייטיב", "הפקה", "שיווק ומכירות", "תפעול", "איכות", "סשנים"];
+const state = { staff: [], vps: [], ceo: null, approvals: [], log: [] };
+let canWrite = false;
+
+function el(tag, attrs = {}, ...kids) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") n.className = v; else if (k === "text") n.textContent = v; else n.setAttribute(k, v);
+  }
+  for (const c of kids) if (c != null) n.append(c);
+  return n;
+}
+function ago(iso) {
+  if (!iso) return "–";
+  const s = Math.round((Date.now() - new Date(iso)) / 1000);
+  if (isNaN(s)) return "–";
+  if (s < 60) return "עכשיו";
+  if (s < 3600) return `לפני ${Math.round(s / 60)} דק׳`;
+  if (s < 86400) return `לפני ${Math.round(s / 3600)} שע׳`;
+  return `לפני ${Math.round(s / 86400)} ימים`;
+}
+function eta(d) {
+  if (d.status === "done") return "הושלם";
+  if (d.eta_at) {
+    const m = Math.round((new Date(d.eta_at) - Date.now()) / 60000);
+    if (!isNaN(m)) {
+      if (m <= 0) return "אמור לסיים כל רגע";
+      if (m < 60) return `עוד ~${m} דק׳`;
+      if (m < 1440) return `עוד ~${Math.round(m / 60)} שע׳`;
+      return `עוד ~${Math.round(m / 1440)} ימים`;
+    }
+  }
+  return d.eta_text || "";
+}
+function pill(status) { return el("span", { class: `pill s-${STATUS[status] ? status : "idle"}`, text: STATUS[status] || STATUS.idle }); }
+
+function renderCeo() {
+  const c = state.ceo;
+  if (!c) return;
+  $("ceo-task").textContent = c.task || "–";
+  $("ceo-skill").textContent = c.skill || "–";
+  $("ceo-tool").textContent = c.tool || "–";
+  $("ceo-next").textContent = c.next || "–";
+  $("ceo-upd").textContent = ago(c.updated_at);
+  const p = $("ceo-pill"); const s = STATUS[c.status] ? c.status : "idle";
+  p.className = `pill s-${s}`; p.textContent = STATUS[s];
+}
+function renderFloor() {
+  const floor = $("floor");
+  if (!state.staff.length) return;
+  floor.replaceChildren();
+  const groups = new Map();
+  for (const d of state.staff) { const k = d.dept || "אחר"; if (!groups.has(k)) groups.set(k, []); groups.get(k).push(d); }
+  const order = [...DEPTS, ...[...groups.keys()].filter(k => !DEPTS.includes(k))];
+  for (const dept of order) {
+    const list = groups.get(dept); if (!list) continue;
+    list.sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+    const desks = el("div", { class: "desks" });
+    for (const d of list) {
+      const s = STATUS[d.status] ? d.status : "idle";
+      const prog = Math.max(0, Math.min(100, Number(d.progress) || (s === "done" ? 100 : 0)));
+      const bar = el("div", { class: "bar", role: "progressbar", "aria-valuemin": "0", "aria-valuemax": "100", "aria-valuenow": String(prog) }, el("i", { style: `width:${prog}%` }));
+      const chips = el("div", { class: "chips" });
+      for (const t of (d.tools || [])) chips.append(el("span", { class: "chip", text: t }));
+      desks.append(el("article", { class: `desk ${s}` },
+        el("div", { class: "head" },
+          el("div", {}, el("h3", { text: d.name || d.id }), el("div", { class: "role", text: d.role || "" })),
+          pill(s)),
+        el("div", { class: "task", text: d.task || (s === "idle" ? "פנוי למשימה הבאה" : "") }),
+        (s === "working" || s === "done" || prog > 0) ? bar : null,
+        el("div", { class: "meta" },
+          el("span", { class: "mono", text: (s === "working" || prog > 0) ? `${prog}%` : "" }),
+          el("span", { text: eta(d) }),
+          el("span", { text: ago(d.updated_at) })),
+        (d.tools && d.tools.length) ? chips : null));
+    }
+    floor.append(el("div", { class: "dept" }, el("div", { class: "dept-head" }, el("h3", { text: dept }), el("span", { class: "muted mono", text: String(list.length) })), desks));
+  }
+}
+function renderWing() {
+  const wing = $("wing");
+  if (!state.vps.length) return;
+  wing.replaceChildren();
+  for (const v of [...state.vps].sort((a, b) => (a.order ?? 99) - (b.order ?? 99))) {
+    const active = v.status === "active";
+    wing.append(el("article", { class: `vp ${active ? "" : "off"}` },
+      el("div", { class: "head", style: "display:flex;justify-content:space-between;gap:8px;align-items:start" },
+        el("h3", { text: v.name }), el("span", { class: `link ${v.link || ""}`, text: LINK[v.link] || v.link || "" })),
+      el("div", { class: "price", text: [v.plan, v.price].filter(Boolean).join(" · ") }),
+      el("div", { class: "muted", style: "font-size:13px", text: v.role || "" }),
+      el("div", { style: "font-size:14px", text: v.doing || "" }),
+      el("div", {}, el("span", { class: `pill s-${active ? "done" : (v.status === "pending" ? "waiting" : "idle")}`, text: v.status_text || (active ? "פעיל" : "לא פעיל") }))));
+  }
+}
+async function decide(a, status) {
+  const db = await claude.use("db"); if (!db) return;
+  try { await db.doc(`approvals/${a.id}`).update({ status, decided_at: new Date().toISOString() }); }
+  catch (e) { canWrite = false; renderApprovals(); }
+}
+function renderApprovals() {
+  const box = $("approvals");
+  const list = [...state.approvals].sort((a, b) => (a.status === "pending" ? 0 : 1) - (b.status === "pending" ? 0 : 1) || (a.order ?? 99) - (b.order ?? 99));
+  if (!list.length) return;
+  box.replaceChildren();
+  for (const a of list) {
+    const pending = a.status === "pending";
+    const acts = el("div", { class: "acts" });
+    if (pending && canWrite) {
+      const y = el("button", { class: "yes", type: "button", text: "מאשר" }); y.onclick = () => { y.disabled = true; decide(a, "approved"); };
+      const n = el("button", { type: "button", text: "לא עכשיו" }); n.onclick = () => { n.disabled = true; decide(a, "rejected"); };
+      acts.append(y, n);
+    }
+    box.append(el("div", { class: `appr ${pending ? "pending" : ""}` },
+      el("div", { style: "display:flex;justify-content:space-between;gap:8px;align-items:start" },
+        el("strong", { text: a.title }),
+        el("span", { class: `pill s-${pending ? "waiting" : a.status === "approved" ? "done" : "idle"}`, text: pending ? "ממתין" : a.status === "approved" ? "אושר" : "נדחה" })),
+      a.detail ? el("div", { class: "muted", style: "font-size:13px", text: a.detail }) : null,
+      pending && canWrite ? acts : null));
+  }
+}
+function renderLog() {
+  if (!state.log.length) return;
+  $("log").replaceChildren(...state.log.map(l => {
+    const t = l.ts ? new Date(l.ts) : null;
+    const hm = t && !isNaN(t) ? t.toLocaleTimeString("he-IL", { hour: "2-digit", minute: "2-digit" }) : "–";
+    return el("li", {}, el("span", { class: "t", text: hm }), el("span", {}, el("strong", { text: (l.who || "") + " " }), l.text || ""));
+  }));
+}
+function renderStats() {
+  $("st-working").textContent = state.staff.filter(d => d.status === "working").length;
+  $("st-waiting").textContent = state.approvals.filter(a => a.status === "pending").length;
+  $("st-staff").textContent = state.staff.length;
+  $("st-vps").textContent = state.vps.filter(v => v.status === "active").length;
+}
+function renderAll() { renderCeo(); renderFloor(); renderWing(); renderApprovals(); renderLog(); renderStats(); }
+
+(async () => {
+  const db = await claude.use("db");
+  const live = $("live");
+  if (!db) { $("live-txt").textContent = "לא מחובר לנתונים"; return; }
+  const user = await claude.use("user");
+  canWrite = (user && (await user.can("data.write"))) !== false;
+  live.classList.add("on"); $("live-txt").textContent = "שידור חי";
+  const fail = () => { live.classList.remove("on"); $("live-txt").textContent = "החיבור נותק, רענן את הדף"; };
+  const docs = (snap) => snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  db.collection("staff").onSnapshot(s => { state.staff = docs(s); renderFloor(); renderStats(); }, fail);
+  db.collection("vps").onSnapshot(s => { state.vps = docs(s); renderWing(); renderStats(); }, fail);
+  db.collection("approvals").onSnapshot(s => { state.approvals = docs(s); renderApprovals(); renderStats(); }, fail);
+  db.collection("log").orderBy("ts", "desc").limit(30).onSnapshot(s => { state.log = docs(s); renderLog(); }, fail);
+  db.doc("ceo/main").onSnapshot(s => { state.ceo = s.exists ? s.data() : null; renderCeo(); }, fail);
+  setInterval(() => { renderCeo(); renderFloor(); }, 30000);
+})();
+</script>
