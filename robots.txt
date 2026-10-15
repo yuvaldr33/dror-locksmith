@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://dror-lock.com/sitemap.xml
